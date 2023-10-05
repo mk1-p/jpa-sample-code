@@ -25,5 +25,8 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    public List<Member> getAllMembersWithBoard() {
+        return memberRepository.findAllFetchBoard();
+    }
 
 }

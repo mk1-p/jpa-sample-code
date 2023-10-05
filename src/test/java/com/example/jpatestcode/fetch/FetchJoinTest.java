@@ -70,5 +70,26 @@ public class FetchJoinTest {
 
     }
 
+    @Test
+    @Transactional
+    void 전체_멤버를_조회하고_연관된_게시글을_가져온다_FETCH() {
+
+        //given
+
+        //when
+        System.out.println("Member의 데이터를 가져온다.");
+        List<Member> members = memberService.getAllMembersWithBoard();
+
+        System.out.println("연관된 Board 데이터를 확인한다.");
+        for (Member member : members) {
+            List<Board> boards = member.getBoards();
+            System.out.println(member.getName() + "의 게시글 수 : "+boards.size());
+        }
+
+        //then
+        Assertions.assertThat(members.size()).isSameAs(2);
+
+    }
+
 
 }
