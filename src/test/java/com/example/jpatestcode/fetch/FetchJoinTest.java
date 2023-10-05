@@ -5,6 +5,7 @@ import com.example.jpatestcode.boards.BoardService;
 import com.example.jpatestcode.members.Member;
 import com.example.jpatestcode.members.MemberService;
 
+import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ public class FetchJoinTest {
 
     private final MemberService memberService;
     private final BoardService boardService;
+    private final EntityManager em;
 
     @Autowired
-    public FetchJoinTest(MemberService memberService, BoardService boardService) {
+    public FetchJoinTest(MemberService memberService, BoardService boardService, EntityManager em) {
         this.memberService = memberService;
         this.boardService = boardService;
+        this.em = em;
     }
 
 
@@ -90,6 +93,34 @@ public class FetchJoinTest {
         Assertions.assertThat(members.size()).isSameAs(2);
 
     }
+
+    @Test
+    void 패치조인에서_페이징() {
+
+
+        //given
+
+
+        //when
+        System.out.println("Member의 데이터를 가져온다.");
+        List<Member> members = em.createQuery("select m from Member m join fetch m.boards", Member.class)
+                .setFirstResult(0)
+                .setMaxResults(10)
+                .getResultList();
+
+
+        System.out.println("연관된 Board 데이터를 확인한다.");
+        for (Member member : members) {
+            List<Board> boards = member.getBoards();
+            System.out.println(member.getName() + "의 게시글 수 : "+boards.size());
+        }
+
+        //then
+        Assertions.assertThat(members.size()).isSameAs(2);
+
+
+    }
+
 
 
 }
