@@ -10,4 +10,5 @@
 ---
 
 ### Fetch Join Test
-* 블로그 포스팅 작성 중.
+* [JPA] Fetch Join
+  <br>https://l-eazzy.tistory.com/34
