@@ -1,12 +1,15 @@
 package com.example.jpatestcode.boards;
 
 
+import com.example.jpatestcode.comments.Comment;
 import com.example.jpatestcode.members.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Table(name = "BOARD")
@@ -27,6 +30,9 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "board")
+    private List<Comment> comments;
 
 
     @Builder
