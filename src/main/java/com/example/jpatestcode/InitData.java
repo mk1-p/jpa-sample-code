@@ -2,6 +2,8 @@ package com.example.jpatestcode;
 
 import com.example.jpatestcode.boards.Board;
 import com.example.jpatestcode.boards.BoardRepository;
+import com.example.jpatestcode.comments.Comment;
+import com.example.jpatestcode.comments.CommentRepository;
 import com.example.jpatestcode.members.Member;
 import com.example.jpatestcode.members.MemberRepository;
 import jakarta.annotation.PostConstruct;
@@ -20,6 +22,7 @@ public class InitData {
 
     public final MemberRepository memberRepository;
     public final BoardRepository boardRepository;
+    public final CommentRepository commentRepository;
 
     @PostConstruct
     @Transactional
@@ -73,6 +76,42 @@ public class InitData {
         boards.add(board4);
 
         boardRepository.saveAll(boards);
+
+
+        // Comment Data
+        Comment comment1 = Comment.builder()
+                .content("댓글 1번을 달았다.")
+                .member(kim)
+                .board(board1)
+                .build();
+        Comment comment2 = Comment.builder()
+                .content("댓글 2번을 달았다.")
+                .member(john)
+                .board(board1)
+                .build();
+        Comment comment3 = Comment.builder()
+                .content("댓글 3번을 달았다.")
+                .member(kim)
+                .board(board1)
+                .build();
+        Comment comment4 = Comment.builder()
+                .content("다른 글에 댓글 테스트1")
+                .member(john)
+                .board(board3)
+                .build();
+
+        board1.getComments().add(comment1);
+        board1.getComments().add(comment2);
+        board1.getComments().add(comment3);
+        board3.getComments().add(comment4);
+
+        List<Comment> comments = new ArrayList<>();
+        comments.add(comment1);
+        comments.add(comment2);
+        comments.add(comment3);
+        comments.add(comment4);
+
+        commentRepository.saveAll(comments);
 
     }
 
