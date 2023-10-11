@@ -1,4 +1,13 @@
+#logging:
+#  level:
+#    org.hibernate.sql: debug   # log file로 남겨줄수있다.
+#    org.hibernate.type: trace  # 쿼리의 파라메터를 보여주는 기능
 
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
 
 
 spring:
@@ -15,9 +24,10 @@ spring:
 
 
   jpa:
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
 #        format_sql: true
+        default_batch_fetch_size: 100
