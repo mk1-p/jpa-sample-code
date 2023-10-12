@@ -14,3 +14,5 @@
   <br>https://l-eazzy.tistory.com/34
 * [JPA] Fetch Join 활용
   <br>https://l-eazzy.tistory.com/35
+* [JPA] JoinColumns 조회 방식
+  <br>https://l-eazzy.tistory.com/36
