@@ -4,6 +4,8 @@ import com.example.jpatestcode.boards.Board;
 import com.example.jpatestcode.boards.BoardRepository;
 import com.example.jpatestcode.comments.Comment;
 import com.example.jpatestcode.comments.CommentRepository;
+import com.example.jpatestcode.info.Info;
+import com.example.jpatestcode.info.InfoRepository;
 import com.example.jpatestcode.members.Member;
 import com.example.jpatestcode.members.MemberRepository;
 import jakarta.annotation.PostConstruct;
@@ -23,6 +25,7 @@ public class InitData {
     public final MemberRepository memberRepository;
     public final BoardRepository boardRepository;
     public final CommentRepository commentRepository;
+    public final InfoRepository infoRepository;
 
     @PostConstruct
     @Transactional
@@ -112,6 +115,22 @@ public class InitData {
         comments.add(comment4);
 
         commentRepository.saveAll(comments);
+
+
+        // Info Data - JoinColumns 관계에서 연관 Key 를 조회할 때, Lazy Loading을 하는가??
+        Info info1 = Info.builder().member(kim).text("test info 1").build();
+        Info info2 = Info.builder().member(kim).text("test info 2").build();
+        Info info3 = Info.builder().member(kim).text("test info 3").build();
+        Info info4 = Info.builder().member(john).text("test info 4").build();
+
+        List<Info> infos = new ArrayList<>();
+        infos.add(info1);
+        infos.add(info2);
+        infos.add(info3);
+        infos.add(info4);
+
+        infoRepository.saveAll(infos);
+
 
     }
 

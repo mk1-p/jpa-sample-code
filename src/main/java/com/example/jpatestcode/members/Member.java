@@ -24,6 +24,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Board> boards;
 
+    @Column
+    private String dummy;   // 임시 컬럼
+
     @Builder
     public Member(Long id, String name, List<Board> boards) {
         this.id = id;
