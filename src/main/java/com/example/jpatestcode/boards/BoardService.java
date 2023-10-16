@@ -1,9 +1,11 @@
 package com.example.jpatestcode.boards;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -30,6 +32,10 @@ public class BoardService {
 
     public List<Board> getAllBoardsFetchMember() {
         return boardRepository.findAllFetchMember();
+    }
+
+    public Page<Board> getBoardsPaging(Pageable pageable) {
+        return boardRepository.findAll(pageable);
     }
 
 }

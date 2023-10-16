@@ -11,6 +11,7 @@ import com.example.jpatestcode.members.MemberRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.query.sqm.LiteralNumberFormatException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,9 +40,13 @@ public class InitData {
         Member kim = Member.builder()
                 .name("Kim")
                 .build();
+        Member bob = Member.builder()
+                .name("bob")
+                .build();
         List<Member> members = new ArrayList<>();
         members.add(john);
         members.add(kim);
+        members.add(bob);
 
         memberRepository.saveAll(members);
 
@@ -77,6 +82,16 @@ public class InitData {
         boards.add(board2);
         boards.add(board3);
         boards.add(board4);
+
+        for (int i = 5; i < 20; i++) {
+            Board board = Board.builder()
+                    .title("게시글 " + i + "번")
+                    .content("반복문 게시글 " + i)
+                    .member(bob)
+                    .build();
+
+            boards.add(board);
+        }
 
         boardRepository.saveAll(boards);
 
