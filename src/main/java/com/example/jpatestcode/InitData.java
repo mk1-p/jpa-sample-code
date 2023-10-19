@@ -36,12 +36,15 @@ public class InitData {
         // Member Data
         Member john = Member.builder()
                 .name("John")
+                .age(10)
                 .build();
         Member kim = Member.builder()
                 .name("Kim")
+                .age(20)
                 .build();
         Member bob = Member.builder()
                 .name("bob")
+                .age(30)
                 .build();
         List<Member> members = new ArrayList<>();
         members.add(john);

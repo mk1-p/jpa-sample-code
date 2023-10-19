@@ -21,6 +21,8 @@ public class Member {
     private Long id;
     @Column
     private String name;
+    @Column
+    private Integer age;
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Board> boards;
 
@@ -28,9 +30,10 @@ public class Member {
     private String dummy;   // 임시 컬럼
 
     @Builder
-    public Member(Long id, String name, List<Board> boards) {
+    public Member(Long id, String name, Integer age, List<Board> boards) {
         this.id = id;
         this.name = name;
+        this.age = age;
         this.boards = boards;
     }
 }
