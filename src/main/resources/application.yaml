@@ -23,13 +23,15 @@ spring:
     password:                           # H2 ?? ? ??? password ?? (??? ??? ??)
 
   jpa:
+    open-in-view: false   # 영속성 컨텍스트 내 영속 범위를 Transaction 내에서만 살아있도록 함
 #    show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create    # Data Definition Language, Application 실행 시 데이터 정의어 옵션
     properties:
       hibernate:
 #        format_sql: true
-        default_batch_fetch_size: 100
+        default_batch_fetch_size: 100 # 배치 조회를 하도록 하는 설정, size에 따라 in절로 조회하는 양이 달라짐
+
 
   data:
     web:

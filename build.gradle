@@ -68,18 +68,18 @@ tasks.named('test') {
 
 //querydsl 추가 시작
 def querydslDir = "$buildDir/generated/querydsl"
-querydsl {
+querydsl { // QueryDSL 플러그인 옵션 설정
     jpa = true
     querydslSourcesDir = querydslDir
 }
 
-sourceSets {
+sourceSets { // IDE 에서 인식하기 위한 세팅
     main.java.srcDir querydslDir
 }
-configurations {
+configurations { // 컴파일 페스에 적용하도록 설정
     querydsl.extendsFrom compileClasspath
 }
-compileQuerydsl {
+compileQuerydsl { // 컴파일 옵션 적용
     options.annotationProcessorPath = configurations.querydsl
 }
 //querydsl 추가 끝
