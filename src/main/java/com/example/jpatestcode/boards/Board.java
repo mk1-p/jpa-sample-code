@@ -4,19 +4,16 @@ package com.example.jpatestcode.boards;
 import com.example.jpatestcode.comments.Comment;
 import com.example.jpatestcode.members.Member;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "BOARD")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = "member")
+@ToString(exclude = {"member", "comments"})
 public class Board {
 
     @Id
