@@ -146,4 +146,26 @@ public class QueryDslBasicTest {
     }
 
 
+    @DisplayName("Concat으로 name과 age 혼합 테스트")
+    @Test
+    void concatElement() {
+
+        // given
+        Long id = 1l;
+
+        // when
+        String result = query.select(member.name.concat("_").concat(member.age.stringValue()))
+                .from(member)
+                .where(member.id.eq(id))
+                .fetchOne();
+
+        // then
+        System.out.println(result);
+
+        Assertions.assertThat(result).contains("10");
+
+
+    }
+
+
 }
