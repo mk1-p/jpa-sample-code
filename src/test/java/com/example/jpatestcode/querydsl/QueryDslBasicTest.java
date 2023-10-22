@@ -3,11 +3,14 @@ package com.example.jpatestcode.querydsl;
 import com.example.jpatestcode.boards.Board;
 import com.example.jpatestcode.boards.QBoard;
 import com.example.jpatestcode.boards.QBoardRepository;
-import com.example.jpatestcode.members.QMember;
+import com.example.jpatestcode.members.*;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -164,6 +167,112 @@ public class QueryDslBasicTest {
 
         Assertions.assertThat(result).contains("10");
 
+
+    }
+
+    @DisplayName("Setter 매핑 테스트")
+    @Test
+    void dtoPropertyTest() {
+
+        // given
+
+        // when
+        List<MemberDto> results = query.select(Projections.bean(MemberDto.class,
+                        member.name,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        // then
+        for (MemberDto result : results) {
+            System.out.println(result.toString());
+        }
+
+    }
+
+    @DisplayName("필드 매핑 테스트")
+    @Test
+    void dtoFieldsTest() {
+
+        // given
+
+        // when
+        List<MemberDto> results = query.select(Projections.fields(MemberDto.class,
+                        member.name,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        // then
+        for (MemberDto result : results) {
+            System.out.println(result.toString());
+        }
+
+    }
+
+
+    @DisplayName("Alias 매핑 테스트")
+    @Test
+    void dtoAliasTest() {
+
+        // given
+        QMember memberSub = member;
+
+        // when
+        List<UserDto> results = query.select(Projections.fields(UserDto.class,
+                        member.name.as("username"),     // 매핑하고자 하는 필드네임
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(memberSub.age.max())
+                                        .from(memberSub), "age")
+                        )
+                )
+                .from(member)
+                .fetch();
+
+        // then
+        for (UserDto result : results) {
+            System.out.println(result.toString());
+        }
+
+    }
+
+    @DisplayName("Construct 매핑 테스트")
+    @Test
+    void dtoConstructTest() {
+
+        // given
+
+        // when
+        List<MemberDto> results = query.select(Projections.constructor(MemberDto.class,
+                        member.id,
+                        member.name,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        // then
+        for (MemberDto result : results) {
+            System.out.println(result.toString());
+        }
+
+    }
+
+    @DisplayName("QueryProjection Anno 매핑 테스트")
+    @Test
+    void dtoQueryProjTest() {
+
+        // given
+
+        // when
+        List<PreMemberDto> results = query.select(new QPreMemberDto(member.id,member.name,member.age))
+                .from(member)
+                .fetch();
+
+        // then
+        for (PreMemberDto result : results) {
+            System.out.println(result.toString());
+        }
 
     }
 
