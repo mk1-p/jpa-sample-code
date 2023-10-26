@@ -4,10 +4,13 @@ import com.example.jpatestcode.boards.Board;
 import com.example.jpatestcode.boards.QBoard;
 import com.example.jpatestcode.boards.QBoardRepository;
 import com.example.jpatestcode.members.*;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -274,6 +277,76 @@ public class QueryDslBasicTest {
             System.out.println(result.toString());
         }
 
+    }
+
+    @DisplayName("Boolean Builder로 동적 쿼리 만들기")
+    @Test
+    void dynamicQuery_booleanBuilder() {
+
+        // given
+        String usernameCond = "Kim";
+        Integer ageCond = 20;
+
+        // when
+        BooleanBuilder builder = new BooleanBuilder();
+
+        // BooleanBuilder 에 조건에 대한 내용을 체이닝하여 연결
+        if (usernameCond != null) {
+            builder.and(member.name.eq(usernameCond));
+        }
+        if (ageCond != null) {
+            builder.and(member.age.eq(ageCond));
+        }
+
+        List<Member> fetch = query.select(member)
+                .from(member)
+                .where(builder)     // 위에서 만든 BooleanBuilder 로 조건문 생성
+                .fetch();
+
+        // then
+        for (Member member : fetch) {
+            System.out.println(member.toString());
+        }
+
+        Assertions.assertThat(fetch.size()).isEqualTo(1);
+
+
+    }
+
+    @DisplayName("Where 파라메터로 동적 쿼리 만들기")
+    @Test
+    void dynamicQuery_whereParam() {
+        // given
+        String usernameCond = "Kim";
+        Integer ageCond = 20;
+
+        // when
+//        List<Member> results = query.selectFrom(member)
+//                .where(usernameEq(usernameCond), ageEq(ageCond))
+//                .fetch();
+
+        // 메소드만 넣었을떄 -> BooleanExpression을 이용하여 or 조건으로 바꾸었을때
+        List<Member> results = query.selectFrom(member)
+                .where(usernameEq(usernameCond).or(ageEq(ageCond)))
+                .fetch();
+
+        // then
+        for (Member result : results) {
+            System.out.println(result);
+        }
+        Assertions.assertThat(results).hasSizeLessThanOrEqualTo(1);
+
+    }
+
+    private BooleanExpression usernameEq(String usernameCond) {
+        if (usernameCond == null) {
+            return null;    // null 을 반환 시에 where에서 해당 조건을 무시하고 넘어간다.
+        }
+        return member.name.eq(usernameCond);
+    }
+
+    private Predicate ageEq(Integer ageCond) {
+        return ageCond != null ? member.age.eq(ageCond) : null;
     }
 
 
