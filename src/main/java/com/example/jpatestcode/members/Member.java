@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "MEMBER")
 @NoArgsConstructor
 @Getter
+@ToString(exclude = {"boards"})
 public class Member {
 
     @Id
