@@ -1,10 +1,8 @@
 package com.example.jpatestcode.members.repository;
 
-import com.example.jpatestcode.members.Member;
 import com.example.jpatestcode.members.dto.MemberSearchCondition;
 import com.example.jpatestcode.members.dto.PreMemberDto;
 import com.example.jpatestcode.members.dto.QPreMemberDto;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -28,7 +26,12 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
         return queryFactory
                 .select(new QPreMemberDto(member.id, member.name, member.age))
                 .from(member)
-                .where(usernameEq(condition.getUsernameCond()).or(ageEq(condition.getAgeCond())))
+                .where(
+                        usernameLike(condition.getName())
+//                                .and(ageGoe(condition.getAgeGoe()))
+//                                .and(ageLoe(condition.getAgeLoe()))
+                                .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
+                )
                 .fetch();
     }
 
@@ -50,6 +53,17 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
 
     private BooleanExpression ageEq(Integer ageCond) {
         return ageCond != null ? member.age.eq(ageCond) : null;
+    }
+
+    private BooleanExpression ageGoe(Integer ageGoe) {
+        return ageGoe != null ? member.age.goe(ageGoe) : null;
+    }
+    private BooleanExpression ageLoe(Integer ageLoe) {
+        return ageLoe != null ? member.age.loe(ageLoe) : null;
+    }
+    // 기존 메소드 연결로 만들어낼 수 있다.
+    private BooleanExpression ageBetween(int ageGoeCond, int ageLoeCond) {
+        return ageGoe(ageGoeCond).and(ageLoe(ageLoeCond));
     }
 
 }

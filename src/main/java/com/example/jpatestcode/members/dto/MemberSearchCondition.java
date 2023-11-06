@@ -6,12 +6,16 @@ import lombok.Getter;
 @Getter
 public class MemberSearchCondition {
 
-    private String usernameCond;
-    private Integer ageCond;
+    private String name;
+    private Integer age;
+    private Integer ageGoe;
+    private Integer ageLoe;
 
     @Builder
-    public MemberSearchCondition(String usernameCond, Integer ageCond) {
-        this.usernameCond = usernameCond;
-        this.ageCond = ageCond;
+    public MemberSearchCondition(String name, Integer age, Integer ageGoe, Integer ageLoe) {
+        this.name = name;
+        this.age = age;
+        this.ageGoe = ageGoe;
+        this.ageLoe = ageLoe;
     }
 }
