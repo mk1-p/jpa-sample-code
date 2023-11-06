@@ -1,6 +1,7 @@
-package com.example.jpatestcode.members;
+package com.example.jpatestcode.members.repository;
 
 
+import com.example.jpatestcode.members.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
