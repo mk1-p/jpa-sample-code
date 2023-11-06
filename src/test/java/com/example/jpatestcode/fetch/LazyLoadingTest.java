@@ -5,7 +5,7 @@ import com.example.jpatestcode.boards.Board;
 import com.example.jpatestcode.info.Info;
 import com.example.jpatestcode.info.InfoRepository;
 import com.example.jpatestcode.members.Member;
-import com.example.jpatestcode.members.MemberRepository;
+import com.example.jpatestcode.members.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

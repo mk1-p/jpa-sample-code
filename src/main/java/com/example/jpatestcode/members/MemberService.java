@@ -1,6 +1,6 @@
 package com.example.jpatestcode.members;
 
-import jakarta.persistence.EntityManager;
+import com.example.jpatestcode.members.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

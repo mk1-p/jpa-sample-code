@@ -1,11 +1,13 @@
 package com.example.jpatestcode.querydsl;
 
 import com.example.jpatestcode.boards.Board;
-import com.example.jpatestcode.boards.QBoard;
 import com.example.jpatestcode.boards.QBoardRepository;
 import com.example.jpatestcode.members.*;
+import com.example.jpatestcode.members.dto.MemberDto;
+import com.example.jpatestcode.members.dto.PreMemberDto;
+import com.example.jpatestcode.members.dto.QPreMemberDto;
+import com.example.jpatestcode.members.dto.UserDto;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
@@ -14,7 +16,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

@@ -7,11 +7,10 @@ import com.example.jpatestcode.comments.CommentRepository;
 import com.example.jpatestcode.info.Info;
 import com.example.jpatestcode.info.InfoRepository;
 import com.example.jpatestcode.members.Member;
-import com.example.jpatestcode.members.MemberRepository;
+import com.example.jpatestcode.members.repository.MemberRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.query.sqm.LiteralNumberFormatException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

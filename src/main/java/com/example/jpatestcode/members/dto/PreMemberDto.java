@@ -1,4 +1,4 @@
-package com.example.jpatestcode.members;
+package com.example.jpatestcode.members.dto;
 
 
 import com.querydsl.core.annotations.QueryProjection;
