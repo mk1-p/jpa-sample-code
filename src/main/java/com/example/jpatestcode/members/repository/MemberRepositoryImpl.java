@@ -1,11 +1,18 @@
 package com.example.jpatestcode.members.repository;
 
+import com.example.jpatestcode.members.Member;
 import com.example.jpatestcode.members.dto.MemberSearchCondition;
 import com.example.jpatestcode.members.dto.PreMemberDto;
 import com.example.jpatestcode.members.dto.QPreMemberDto;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
@@ -33,6 +40,77 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                                 .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
                 )
                 .fetch();
+    }
+
+    @Override
+    public Page<PreMemberDto> searchPageSimple(MemberSearchCondition condition, Pageable pageable) {
+        QueryResults<PreMemberDto> results = queryFactory
+                .select(new QPreMemberDto(member.id, member.name, member.age))
+                .from(member)
+                .where(
+                        usernameLike(condition.getName())
+                                .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<PreMemberDto> contents = results.getResults();
+        long count = results.getTotal();
+
+        return new PageImpl<>(contents,pageable,count);
+
+    }
+
+    @Override
+    public Page<PreMemberDto> searchPageComplex(MemberSearchCondition condition, Pageable pageable) {
+
+        List<PreMemberDto> contents = queryFactory
+                .select(new QPreMemberDto(member.id, member.name, member.age))
+                .from(member)
+                .where(
+                        usernameLike(condition.getName())
+                                .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long count = queryFactory
+                .selectFrom(member)
+                .where(
+                        usernameLike(condition.getName())
+                                .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
+                )
+                .fetchCount();
+
+        return new PageImpl<>(contents, pageable, count);
+    }
+
+    @Override
+    public Page<PreMemberDto> searchPageOptimization(MemberSearchCondition condition, Pageable pageable) {
+        List<PreMemberDto> contents = queryFactory
+                .select(new QPreMemberDto(member.id, member.name, member.age))
+                .from(member)
+                .where(
+                        usernameLike(condition.getName())
+                                .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Member> countQuery = queryFactory
+                .selectFrom(member)
+                .where(
+                        usernameLike(condition.getName())
+                                .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
+                );
+
+        // 카운트 쿼리가 작동하지 않는 경우 (굳이 작동하지 않아도 되는 경우)
+        // 첫페이지에서 리밋을 숫자 보다 컨텐츠 갯수가 적은 경우
+        // 마지막 페이지일 떄
+        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchCount);
     }
 
 
