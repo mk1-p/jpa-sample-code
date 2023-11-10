@@ -50,6 +50,15 @@ public class InitData {
         members.add(kim);
         members.add(bob);
 
+        for (int i = 4; i < 20; i++) {
+            Member member = Member.builder()
+                    .name("member"+i)
+                    .age(i+10)
+                    .build();
+
+            members.add(member);
+        }
+
         memberRepository.saveAll(members);
 
 
