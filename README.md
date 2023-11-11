@@ -24,3 +24,5 @@
   <br>https://l-eazzy.tistory.com/39
 * [JPA] QueryDSL 사용자 정의 레포지토리 적용
   <br>https://l-eazzy.tistory.com/41
+* [JPA] QueryDSL 페이징 적용
+  <br>https://l-eazzy.tistory.com/44
