@@ -100,8 +100,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        JPAQuery<Member> countQuery = queryFactory
-                .selectFrom(member)
+        JPAQuery<Long> totalCountQuery = queryFactory
+                .select(member.count())
+                .from(member)
                 .where(
                         usernameLike(condition.getName())
                                 .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
@@ -110,7 +111,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
         // 카운트 쿼리가 작동하지 않는 경우 (굳이 작동하지 않아도 되는 경우)
         // 첫페이지에서 리밋을 숫자 보다 컨텐츠 갯수가 적은 경우
         // 마지막 페이지일 떄
-        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchCount);
+        return PageableExecutionUtils.getPage(contents, pageable, totalCountQuery::fetchOne);
     }
 
 
