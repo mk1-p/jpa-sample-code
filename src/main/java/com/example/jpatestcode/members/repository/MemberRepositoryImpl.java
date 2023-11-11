@@ -1,5 +1,6 @@
 package com.example.jpatestcode.members.repository;
 
+import com.example.jpatestcode.boards.QBoard;
 import com.example.jpatestcode.members.Member;
 import com.example.jpatestcode.members.dto.MemberSearchCondition;
 import com.example.jpatestcode.members.dto.PreMemberDto;
@@ -16,6 +17,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
+import static com.example.jpatestcode.boards.QBoard.*;
 import static com.example.jpatestcode.members.QMember.member;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom{
@@ -47,12 +49,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
         QueryResults<PreMemberDto> results = queryFactory
                 .select(new QPreMemberDto(member.id, member.name, member.age))
                 .from(member)
+                .leftJoin(member.boards, board)
                 .where(
                         usernameLike(condition.getName())
                                 .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .groupBy(member.id)
                 .fetchResults();
 
         List<PreMemberDto> contents = results.getResults();
@@ -68,12 +72,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
         List<PreMemberDto> contents = queryFactory
                 .select(new QPreMemberDto(member.id, member.name, member.age))
                 .from(member)
+                .leftJoin(member.boards, board)
                 .where(
                         usernameLike(condition.getName())
                                 .and(ageBetween(condition.getAgeGoe(), condition.getAgeLoe()))
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .groupBy(member.id)
                 .fetch();
 
         long count = queryFactory

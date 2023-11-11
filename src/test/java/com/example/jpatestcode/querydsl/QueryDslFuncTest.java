@@ -56,6 +56,73 @@ public class QueryDslFuncTest {
 
     }
 
+    @DisplayName("QueryDsl Simple Pagination 테스트")
+    @Test
+    void searchPageSimpleTest() {
+        //given
+        Integer ageGoe = 0;
+        Integer ageLoe = 40;
+        int pageSize = 10;
+        MemberSearchCondition condition = MemberSearchCondition.builder()
+                .ageGoe(ageGoe)
+                .ageLoe(ageLoe)
+                .build();
+        PageRequest pageable = PageRequest.of(0, pageSize);
+
+        //when
+        Page<PreMemberDto> results = memberRepository.searchPageSimple(condition, pageable);
+
+        //then
+        List<PreMemberDto> contents = results.getContent();
+        long count = results.getTotalElements();
+        int totalPages = results.getTotalPages();
+        System.out.println("contents count : "+contents.size());
+        System.out.println("total count : "+count);
+        System.out.println("total pages : "+totalPages);
+
+        for (PreMemberDto content : contents) {
+            System.out.println(content.toString());
+        }
+
+        // 요청 페이지 숫자보다 적거나 같은 경우 통과
+        Assertions.assertThat(contents.size()).isLessThanOrEqualTo(pageSize);
+
+    }
+
+
+    @DisplayName("QueryDsl Complex Pagination 테스트")
+    @Test
+    void searchPageComplexTest() {
+        //given
+        Integer ageGoe = 0;
+        Integer ageLoe = 40;
+        int pageSize = 10;
+        MemberSearchCondition condition = MemberSearchCondition.builder()
+                .ageGoe(ageGoe)
+                .ageLoe(ageLoe)
+                .build();
+        PageRequest pageable = PageRequest.of(0, pageSize);
+
+        //when
+        Page<PreMemberDto> results = memberRepository.searchPageComplex(condition, pageable);
+
+        //then
+        List<PreMemberDto> contents = results.getContent();
+        long count = results.getTotalElements();
+        int totalPages = results.getTotalPages();
+        System.out.println("contents count : "+contents.size());
+        System.out.println("total count : "+count);
+        System.out.println("total pages : "+totalPages);
+
+        for (PreMemberDto content : contents) {
+            System.out.println(content.toString());
+        }
+
+        // 요청 페이지 숫자보다 적거나 같은 경우 통과
+        Assertions.assertThat(contents.size()).isLessThanOrEqualTo(pageSize);
+
+    }
+
 
     @DisplayName("QueryDsl Pagination 테스트")
     @Test
@@ -63,7 +130,7 @@ public class QueryDslFuncTest {
         //given
         Integer ageGoe = 0;
         Integer ageLoe = 40;
-        int pageSize = 10;
+        int pageSize = 100;
         MemberSearchCondition condition = MemberSearchCondition.builder()
                 .ageGoe(ageGoe)
                 .ageLoe(ageLoe)

@@ -12,6 +12,7 @@ public interface MemberRepositoryCustom {
 
     List<PreMemberDto> search(MemberSearchCondition condition);
 
+    // 페이징 메소드
     Page<PreMemberDto> searchPageSimple(MemberSearchCondition condition, Pageable pageable);
 
     Page<PreMemberDto> searchPageComplex(MemberSearchCondition condition, Pageable pageable);
