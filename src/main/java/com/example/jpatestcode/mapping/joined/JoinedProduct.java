@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -16,9 +17,9 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SuperBuilder
+@Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class JoinedProduct {
+public abstract class JoinedProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +27,17 @@ public class JoinedProduct {
     private Long id;
     private String name;
 
+    private Integer packageId;
+
     @OneToMany(mappedBy = "joinedProduct")
     private List<Price> prices;
     @OneToMany(mappedBy = "joinedProduct")
     private List<Category> categories;
 
-    public JoinedProduct(Long id, String name, List<Price> prices, List<Category> categories) {
+    public JoinedProduct(Long id, String name, Integer packageId, List<Price> prices, List<Category> categories) {
         this.id = id;
         this.name = name;
+        this.packageId = packageId;
         this.prices = prices;
         this.categories = categories;
     }

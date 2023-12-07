@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface JoinedProductRepository extends JpaRepository<JoinedProduct, Long> {
 
-    List<JoinedProduct> findByDtype(String type);
+    List<JoinedProduct> findByPackageId(Integer packageId);
 
 }
