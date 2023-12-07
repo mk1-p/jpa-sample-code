@@ -9,6 +9,7 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "game_id")
 @NoArgsConstructor
 @Getter
+@ToString
 public class JoinedGame extends JoinedProduct {
 
 

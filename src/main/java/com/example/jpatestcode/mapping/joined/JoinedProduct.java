@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@ToString
 public abstract class JoinedProduct {
 
     @Id
